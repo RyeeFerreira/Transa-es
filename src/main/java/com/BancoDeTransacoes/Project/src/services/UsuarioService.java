@@ -5,6 +5,8 @@ import com.BancoDeTransacoes.Project.src.models.UsuarioModel;
 import com.BancoDeTransacoes.Project.src.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UsuarioService {
     private UsuarioModel model;
@@ -14,8 +16,9 @@ public class UsuarioService {
         this.repository = usuarioRepository;
     }
 
-    public void create(UsuarioModel model){
+    public List<UsuarioModel> criar(UsuarioModel model){
         repository.save(model);
+        return listarTodos();
     };
 
     public void editar(UsuarioModel model){
@@ -28,5 +31,9 @@ public class UsuarioService {
 
     public void listar(Long id){
         repository.findById(id);
+    }
+
+    public List<UsuarioModel> listarTodos(){
+        return repository.findAll();
     }
 }

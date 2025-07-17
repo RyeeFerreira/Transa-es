@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -21,8 +23,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public void create(@RequestBody UsuarioModel model){
-        service.create(model);
+    public List<UsuarioModel> criar(@RequestBody UsuarioModel model){
+        return service.criar(model);
     }
 
     @PutMapping
@@ -35,8 +37,13 @@ public class UsuarioController {
         service.deletar(id);
     }
 
-    @GetMapping
-    public void listar(@RequestBody Long id){
+    @GetMapping("/{id}")
+    public void listar(@PathVariable("id") Long id){
         service.listar(id);
+    }
+
+    @GetMapping
+    public List<UsuarioModel> listar_todos(){
+        return service.listarTodos();
     }
 }
