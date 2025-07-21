@@ -37,9 +37,14 @@ public class UsuarioController {
         service.deletar(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public void listar(@PathVariable("id") Long id){
         service.listar(id);
+    }
+
+    @GetMapping("{cpf}")
+    public void listar(@PathVariable("cpf") String cpf){
+        service.procuraPorCpf(cpf);
     }
 
     @GetMapping

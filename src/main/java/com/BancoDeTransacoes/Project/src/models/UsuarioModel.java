@@ -10,16 +10,31 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "usuarios")
 public class UsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "cpf", nullable = false, unique = true)
+    private String cpf;
     @Column(name = "nome", nullable = false)
     private String nome;
-    @Column(name = "genero", nullable = false)
+    @Column(name = "genero")
     private String genero;
+    @Column(name = "saldo")
+    private double saldo;
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
 
     public Long getId() {
         return id;
@@ -43,5 +58,13 @@ public class UsuarioModel {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

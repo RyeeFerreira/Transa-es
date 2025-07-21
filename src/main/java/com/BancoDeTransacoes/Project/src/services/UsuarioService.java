@@ -33,7 +33,17 @@ public class UsuarioService {
         repository.findById(id);
     }
 
+    public void procuraPorCpf(String cpf){
+        repository.findByCpf(cpf);
+    }
+
     public List<UsuarioModel> listarTodos(){
         return repository.findAll();
+    }
+
+    public double transferencia(double valor){
+        double saldoAtual = model.getSaldo();
+        model.setSaldo(saldoAtual - valor);
+        return model.getSaldo();
     }
 }
