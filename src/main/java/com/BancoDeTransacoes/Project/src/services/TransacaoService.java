@@ -23,20 +23,39 @@ public class TransacaoService {
 
 
     public Optional<TransacaoModel> transferencia(TransacaoDTO transacaoDTO){
+
       Optional<UsuarioModel> remetenteOp = usuarioRepository.findById(transacaoDTO.getRemetente_id());
       Optional<UsuarioModel> destinatarioOp = usuarioRepository.findById(transacaoDTO.getDestinatario_id());
+      if (remetenteOp.isPresent() && destinatarioOp.isPresent()){
+
       UsuarioModel remetente = remetenteOp.get();
       UsuarioModel destinatario = destinatarioOp.get();
 
-      TransacaoModel transacao = new TransacaoModel();
-      transacao.setRemetente(remetente);
-      transacao.setDestinatario(destinatario);
-      transacao.setValor(transacaoDTO.getValor());
-      transacao.setData(LocalDateTime.now());
-      repository.save(transacao);
 
-      return repository.findById(transacao.getId());
+      double valorDaTransacao = transacaoDTO.getValor();
+      double saldoAtualRemetente = remetente.getSaldo();
+      double saldoAtualDestinatario = destinatario.getSaldo();
 
+
+      if (saldoAtualRemetente >= valorDaTransacao){
+          remetente.setSaldo(saldoAtualRemetente - valorDaTransacao);
+          destinatario.setSaldo(saldoAtualDestinatario + valorDaTransacao);
+
+          TransacaoModel transacao = new TransacaoModel();
+          transacao.setRemetente(remetente);
+          transacao.setDestinatario(destinatario);
+          transacao.setValor(valorDaTransacao);
+          transacao.setData(LocalDateTime.now());
+          repository.save(transacao);
+
+          return repository.findById(transacao.getId());
+
+      }
+          System.out.println("Saldo Insuficiente");
+      return null;
+      }
+        System.out.println("O remetente ou destinatario não foram encontrados");
+      return null;
 
 
     }
